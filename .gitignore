@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+.cache/
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs & traces
+*.log
+runs/*.jsonl
+runs/*.html
+
+# Test snapshots
+tests/__snapshots__/
+
+# Misc
+*.tgz
+*.zip
+
