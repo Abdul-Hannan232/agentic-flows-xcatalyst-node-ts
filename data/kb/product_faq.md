@@ -1,0 +1,1 @@
+# FAQ\nQ: How to change plan?\nA: Contact support.

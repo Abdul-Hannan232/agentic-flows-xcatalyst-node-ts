@@ -1,0 +1,11 @@
+{
+  "id": "t_0001",
+  "from": "sara@acme.com",
+  "subject": "Billing discrepancy on August invoice",
+  "body": "Our invoice is double expected. Contract states $1,200 per month.",
+  "attachments": [
+    "data/kb/contracts/acme_msa.pdf"
+  ],
+  "channel": "email",
+  "received_at": "2025-08-18T07:12:01Z"
+}

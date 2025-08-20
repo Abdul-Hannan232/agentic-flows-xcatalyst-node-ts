@@ -1,0 +1,1 @@
+Check policy compliance. Refuse risky actions. Escalate when needed.

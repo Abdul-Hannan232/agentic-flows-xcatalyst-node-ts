@@ -1,0 +1,1 @@
+Plan first. Output JSON: {goal, assumptions, steps, stopping_conditions}.
