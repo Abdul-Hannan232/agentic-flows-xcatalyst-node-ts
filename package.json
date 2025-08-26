@@ -10,6 +10,7 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
     "triage:run": "tsx src/cli.ts triage:run",
+    "triage": "tsx src/cli.ts triage:classify",
     "test": "vitest run"
   },
   "dependencies": {
