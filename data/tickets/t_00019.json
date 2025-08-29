@@ -1,0 +1,10 @@
+{
+    "id": "t_0019",
+    "from": "charlotte@globex.com",
+    "subject": "Invoice issue and dashboard down",
+    "body": "Invoice total is incorrect and users cannot access the dashboard.",
+    "attachments": ["data/kb/contracts/charlotte_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T20:35:00Z"
+  }
+  

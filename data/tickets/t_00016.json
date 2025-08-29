@@ -1,0 +1,10 @@
+{
+    "id": "t_0016",
+    "from": "ethan@globex.com",
+    "subject": "API latency high",
+    "body": "The /orders endpoint response time exceeds 25 seconds consistently.",
+    "attachments": [],
+    "channel": "web",
+    "received_at": "2025-08-23T18:50:00Z"
+  }
+  

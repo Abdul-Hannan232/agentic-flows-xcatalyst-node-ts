@@ -1,0 +1,10 @@
+{
+    "id": "t_0008",
+    "from": "david@globex.com",
+    "subject": "Overcharged for July",
+    "body": "We were charged $1,400 instead of $1,200 as per our contract.",
+    "attachments": ["data/kb/contracts/david_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T14:10:00Z"
+  }
+  

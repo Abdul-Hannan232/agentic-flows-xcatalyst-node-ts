@@ -16,7 +16,11 @@ const ToolNames = z.enum([
   "issues.api.create",
   "status.api.get",
   "email.draftReply",
-  "escalate.toHuman"
+  "escalate.toHuman",
+  "billing.listInvoices",
+  "billing.getUsage",
+  "issues.listIssues",
+  "issues.getIssues",
 ])
 
 const StepSchema = z.object({

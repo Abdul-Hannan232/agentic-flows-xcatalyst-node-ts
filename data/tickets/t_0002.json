@@ -1,0 +1,10 @@
+{
+    "id": "t_0002",
+    "from": "alex@globex.com",
+    "subject": "Service outage in EU region",
+    "body": "Our team cannot access the dashboard — it shows 500 errors since this morning.",
+    "attachments": [],
+    "channel": "email",
+    "received_at": "2025-08-20T09:22:15Z"
+  }
+  

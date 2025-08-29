@@ -1,0 +1,10 @@
+{
+    "id": "t_0020",
+    "from": "henry@acme.com",
+    "subject": "Incorrect invoice + slow API",
+    "body": "Invoice for September is wrong and API responses are very slow.",
+    "attachments": ["data/kb/contracts/henry_contract.pdf"],
+    "channel": "web",
+    "received_at": "2025-08-23T21:10:00Z"
+  }
+  

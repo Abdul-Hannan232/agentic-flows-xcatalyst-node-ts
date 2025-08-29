@@ -1,0 +1,10 @@
+{
+    "id": "t_0006",
+    "from": "mark@acme.com",
+    "subject": "Invoice issue and service down",
+    "body": "Invoice for July is incorrect. Also, users cannot access the portal today.",
+    "attachments": ["data/kb/contracts/mark_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T12:45:00Z"
+  }
+  

@@ -1,0 +1,10 @@
+{
+    "id": "t_0004",
+    "from": "john@initech.com",
+    "subject": "Incorrect August billing",
+    "body": "The invoice shows $1,500 instead of $1,200 per contract.",
+    "attachments": ["data/kb/contracts/john_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T10:15:00Z"
+  }
+  

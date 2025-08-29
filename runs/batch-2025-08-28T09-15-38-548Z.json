@@ -1,0 +1,107 @@
+{
+  "timestamp": "2025-08-28T09:15:38.549Z",
+  "resolvedCount": 13,
+  "total": 20,
+  "results": [
+    {
+      "ticket_id": "t_0001",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0010",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0011",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0012",
+      "status": "incomplete",
+      "observations_count": 3
+    },
+    {
+      "ticket_id": "t_0013",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0014",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0015",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0016",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0017",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0018",
+      "status": "incomplete",
+      "observations_count": 6
+    },
+    {
+      "ticket_id": "t_0019",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0002",
+      "status": "resolved",
+      "observations_count": 2
+    },
+    {
+      "ticket_id": "t_0020",
+      "status": "escalated",
+      "observations_count": 8
+    },
+    {
+      "ticket_id": "t_0003",
+      "status": "escalated",
+      "observations_count": 8
+    },
+    {
+      "ticket_id": "t_0004",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0005",
+      "status": "incomplete",
+      "observations_count": 6
+    },
+    {
+      "ticket_id": "t_0006",
+      "status": "escalated",
+      "observations_count": 8
+    },
+    {
+      "ticket_id": "t_0007",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0008",
+      "status": "resolved",
+      "observations_count": 1
+    },
+    {
+      "ticket_id": "t_0009",
+      "status": "incomplete",
+      "observations_count": 3
+    }
+  ]
+}

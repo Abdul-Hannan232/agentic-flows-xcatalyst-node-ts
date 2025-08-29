@@ -1,0 +1,10 @@
+{
+    "id": "t_0012",
+    "from": "noah@initech.com",
+    "subject": "Login page down",
+    "body": "Users cannot log in to the system; page shows error 503.",
+    "attachments": [],
+    "channel": "web",
+    "received_at": "2025-08-23T16:30:00Z"
+  }
+  

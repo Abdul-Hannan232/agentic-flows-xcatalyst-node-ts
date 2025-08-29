@@ -1,0 +1,10 @@
+{
+    "id": "t_0010",
+    "from": "oliver@acme.com",
+    "subject": "Duplicate charge in August invoice",
+    "body": "Our August invoice shows the same charge twice.",
+    "attachments": ["data/kb/contracts/oliver_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T15:20:00Z"
+  }
+  

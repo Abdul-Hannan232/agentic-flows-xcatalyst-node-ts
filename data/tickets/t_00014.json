@@ -1,0 +1,10 @@
+{
+    "id": "t_0014",
+    "from": "liam@acme.com",
+    "subject": "Service outage in APAC",
+    "body": "APAC users report complete service outage since 8 AM.",
+    "attachments": [],
+    "channel": "email",
+    "received_at": "2025-08-23T17:40:00Z"
+  }
+  

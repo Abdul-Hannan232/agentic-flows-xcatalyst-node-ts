@@ -1,0 +1,10 @@
+{
+    "id": "t_0005",
+    "from": "lisa@globex.com",
+    "subject": "EU dashboard down",
+    "body": "Users in EU region cannot access the dashboard, getting 502 errors.",
+    "attachments": [],
+    "channel": "email",
+    "received_at": "2025-08-23T11:20:00Z"
+  }
+  

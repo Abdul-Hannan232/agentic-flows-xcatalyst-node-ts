@@ -1,0 +1,10 @@
+{
+    "id": "t_0007",
+    "from": "emma@acme.com",
+    "subject": "August invoice missing discount",
+    "body": "The invoice does not include the agreed 10% discount for August.",
+    "attachments": ["data/kb/contracts/emma_contract.pdf"],
+    "channel": "email",
+    "received_at": "2025-08-23T13:30:00Z"
+  }
+  

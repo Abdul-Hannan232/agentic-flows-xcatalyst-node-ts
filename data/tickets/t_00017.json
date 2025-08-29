@@ -1,0 +1,10 @@
+{
+    "id": "t_0017",
+    "from": "harper@acme.com",
+    "subject": "Slow reporting API",
+    "body": "Reports are taking over 15 minutes to generate.",
+    "attachments": [],
+    "channel": "email",
+    "received_at": "2025-08-23T19:25:00Z"
+  }
+  
