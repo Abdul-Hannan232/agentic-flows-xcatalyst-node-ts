@@ -1,0 +1,81 @@
+{
+  "id": "case_t_0003",
+  "ticket_id": "t_0003",
+  "problem_summary": "Slow response times from API",
+  "plan": [
+    "1. status.api.get",
+    "2. issues.listIssues (customer=\"maria@initech.com\")",
+    "3. kb.retrieve (query=\"/payments endpoint slow response\")",
+    "4. escalate.toHuman (ticket_id=\"t_0003\")"
+  ],
+  "actions": [
+    {
+      "step": 1,
+      "tool": "status.api.get",
+      "result": {
+        "service": "core-api",
+        "status": "green",
+        "updated_at": "2025-09-03T10:29:45.970Z"
+      }
+    },
+    {
+      "step": 2,
+      "tool": "issues.listIssues",
+      "result": [
+        {
+          "id": "iss001",
+          "customer": "acme",
+          "severity": "P1",
+          "status": "open",
+          "description": "Multi-tenant outage"
+        },
+        {
+          "id": "iss002",
+          "customer": "globex",
+          "severity": "P2",
+          "status": "in_progress",
+          "description": "Single-tenant API slowdown"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "tool": "kb.retrieve",
+      "result": {
+        "query": "/payments endpoint slow response",
+        "hits": [
+          {
+            "id": "pricing.md#0",
+            "text": "# Pricing\\n- Base: $1,200/mo\\n- Overage: API calls $0.05 each",
+            "score": 0,
+            "sourcePath": "data/kb/pricing.md"
+          },
+          {
+            "id": "product_faq.md#0",
+            "text": "# FAQ\\nQ: How to change plan?\\nA: Contact support.",
+            "score": 0,
+            "sourcePath": "data/kb/product_faq.md"
+          },
+          {
+            "id": "runbook_incidents.md#0",
+            "text": "# Runbook\\n- P1: Multi-tenant outage\\n- P2: Single-tenant outage",
+            "score": 0,
+            "sourcePath": "data/kb/runbook_incidents.md"
+          }
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "tool": "escalate.toHuman",
+      "result": {
+        "escalated": true,
+        "reason": "Unable to resolve slow response times for /payments endpoint automatically.",
+        "ticket": "E-336224"
+      }
+    }
+  ],
+  "outcome": "Resolved in 4 observations.",
+  "postmortem": "Planned 4 step(s); executed 4 observation(s); tools used: status.api.get, issues.listIssues, kb.retrieve, escalate.toHuman.",
+  "created_at": "2025-09-03T10:29:46.016Z"
+}

@@ -12,18 +12,20 @@ import {
   generateStaticPlan,
 } from "./classifier/staticClassifier";
 import { TriageOutputSchema } from "./schemas/outputSchema";
-// import * as path from "node:path";
+import { initShortMemory, resetShortMemory } from "./memory/short";
+import { runWithReflection } from "./agent/loop";
 
-// Load env
+
 dotenv.config();
 
-// Register mock tools
 import { retrieve as kbRetrieve } from "./tools/kb";
 import { getInvoice } from "./tools/billing";
 import { createIssue } from "./tools/issues";
 import { getStatus } from "./tools/status";
 import { draftReply } from "./tools/email";
 import { escalate } from "./tools/escalate";
+import { casesQueryTool, storeFromRun, rebuildIndex } from "./tools/cases";
+
 
 import {
   listInvoicesTool,
@@ -44,6 +46,9 @@ registerTool("status.api.get", getStatus as any);
 registerTool("email.draftReply", draftReply as any);
 registerTool("escalate.toHuman", escalate as any);
 
+registerTool("cases.query", casesQueryTool as any);
+
+
 const redact = (s: string) => s.replaceAll(/([\w._%+-])[^@\s]*(@)/g, "$1***$2");
 
 program
@@ -53,14 +58,35 @@ program
   .action(async (opts) => {
     const ticket = await loadTicket(opts.ticket);
 
+    // init short-term memory for this run
+    initShortMemory(ticket.id);
+
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const p = await plan(openai, ticket);
-    const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact };
-    const result = await execute(p, ctx);
-    console.log(
-      JSON.stringify({ ticket_id: ticket.id, plan: p, result }, null, 2)
-    );
+    const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 2 };
+    const result = await runWithReflection(openai, ticket, p, ctx);
+
+    console.log(JSON.stringify({ ticket_id: ticket.id, plan: p, result }, null, 2));
+
+    // ==== NEW: persist successful dry-run as a case ====
+    if (opts.dryRun && result.status === "resolved") {
+      try {
+        const saved = await storeFromRun(ticket, p, result, { redact, openaiApiKey: process.env.OPENAI_API_KEY });
+        if (saved.saved) {
+          console.log(`[cases] saved → ${saved.path}`);
+        } else {
+          console.log(`[cases] not saved (${saved.reason})`);
+        }
+      } catch (e: any) {
+        console.warn(`[cases] save failed: ${e?.message || e}`);
+      }
+    }
+
+    // reset after run to avoid leaking memory between runs
+    resetShortMemory();
   });
+
+
 
 program
   .command("triage:classify")
@@ -97,9 +123,15 @@ program
       const ticket = JSON.parse(raw);
 
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const p = await plan(openai, ticket);
-      const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact };
-      const result = await execute(p, ctx);
+      initShortMemory(ticket.id);
+      try {
+        const p = await plan(openai, ticket);
+        const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 2 };
+        const result = await runWithReflection(openai, ticket, p, ctx);
+      } finally {
+        resetShortMemory();
+      }
+
 
       results.push({
         ticket_id: ticket.id,
@@ -111,20 +143,17 @@ program
     }
 
     console.log("\nBatch Summary:");
-    // --- after you compute `results` (array of { ticket_id, status, observations_count, ... })
+
     const resolvedCount = results.filter(
       (r: any) => r.status === "resolved"
     ).length;
     const total = results.length;
 
-    // human-friendly pass/fail
     console.log(
-      `\n${
-        resolvedCount === 0 ? "❌" : "✅"
+      `\n${resolvedCount === 0 ? "❌" : "✅"
       } ${resolvedCount}/${total} resolved`
     );
 
-    // Print short list of incomplete tickets (quick diagnostics)
     const incomplete = results.filter((r: any) => r.status !== "resolved");
     if (incomplete.length > 0) {
       console.log("\nIncomplete tickets (ids):");
@@ -135,7 +164,6 @@ program
       }
     }
 
-    // persist results to runs/
     const outDir = path.resolve(process.cwd(), "runs");
     await fs.mkdir(outDir, { recursive: true });
     const outPath = path.join(
@@ -152,44 +180,33 @@ program
     console.log(`\nSaved batch results to ${outPath}`);
   });
 
+
+
+
+program
+  .command("cases:query")
+  .requiredOption("--q <query>", "query string")
+  .option("--k <num>", "top_k", "3")
+  .action(async (opts) => {
+    const res = await casesQueryTool({ query: opts.q, top_k: Number(opts.k) }, {} as any);
+    console.log(JSON.stringify(res, null, 2));
+  });
+
+program
+  .command("cases:reindex")
+  .action(async () => {
+    const openai = process.env.CASES_USE_EMBEDDINGS === "1" && process.env.OPENAI_API_KEY
+      ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+      : undefined;
+    await rebuildIndex(true, openai);
+    console.log("Cases index rebuilt.");
+  });
+
+
+
 program.parse();
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Doing GPT suggested task to check everything is working fine
-
-/*
-import { Command } from "commander";
-import { runHelloAgent } from "./agent/loop.js";
-
-const program = new Command();
-
-program
-  .name("cli")
-  .description("Agentic Flows CLI");
-
-program
-  .command("hello:run")
-  .description("Run a hello-world agent loop")
-  .action(async () => {
-    await runHelloAgent();
-  });
-
-program.parse();  
-*/
+// Conserve tokens, we can harden/debug what’s already built (e.g., avoid duplicate tool calls on replans, make reflection cheaper).

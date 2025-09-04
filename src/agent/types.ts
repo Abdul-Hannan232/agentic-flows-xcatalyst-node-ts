@@ -50,4 +50,10 @@ export type ExecContext = {
   budget?: number;
   redact?: (s: string) => string;
   // add stores (memory, kb) as needed
+
+  // --- Reflection loop options (all optional) ---
+  reflection_threshold?: number;        // default 0.5
+  reflection_maxIterations?: number;    // default 2
+  reflection_backoffMs?: number;        // default 500
+  useLLMForReflection?: boolean;        // default true
 };
