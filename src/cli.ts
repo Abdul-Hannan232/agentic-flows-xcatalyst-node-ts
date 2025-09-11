@@ -14,6 +14,7 @@ import {
 import { TriageOutputSchema } from "./schemas/outputSchema";
 import { initShortMemory, resetShortMemory } from "./memory/short";
 import { runWithReflection } from "./agent/loop";
+import { runEvaluation } from "./evaluation";
 
 
 dotenv.config();
@@ -63,7 +64,7 @@ program
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const p = await plan(openai, ticket);
-    const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 2 };
+    const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 1 };
     const result = await runWithReflection(openai, ticket, p, ctx);
 
     console.log(JSON.stringify({ ticket_id: ticket.id, plan: p, result }, null, 2));
@@ -126,7 +127,7 @@ program
       initShortMemory(ticket.id);
       try {
         const p = await plan(openai, ticket);
-        const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 2 };
+        const ctx: ExecContext = { dry_run: !!opts.dryRun, budget: 8, redact, reflection_threshold: 0.5, reflection_maxIterations: 1 };
         const result = await runWithReflection(openai, ticket, p, ctx);
       } finally {
         resetShortMemory();
@@ -202,6 +203,17 @@ program
     console.log("Cases index rebuilt.");
   });
 
+
+program
+  .command("eval:cases")
+  .option("--tickets <dir>", "tickets directory", "data/tickets")
+  .option("--sample <n>", "max tickets to sample (for speed)", "10")
+  .action(async (opts) => {
+    const sampleCount = Number(opts.sample || 10);
+    const summary = await runEvaluation(opts.tickets, { sampleCount });
+    console.log("Evaluation summary (top-level):");
+    console.log(JSON.stringify(summary, null, 2));
+  });
 
 
 program.parse();

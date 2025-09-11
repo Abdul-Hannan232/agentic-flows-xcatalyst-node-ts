@@ -1,3 +1,4 @@
+// src/agent/types.ts  (patch / replace relevant section)
 import { z } from "zod";
 
 export type Ticket = {
@@ -21,12 +22,13 @@ const ToolNames = z.enum([
   "billing.getUsage",
   "issues.listIssues",
   "issues.getIssues",
-])
+  "cases.query",
+]);
 
 const StepSchema = z.object({
   tool: ToolNames,
   args: z.record(z.any())
-})
+});
 
 export const PlanSchema = z.object({
   goal: z.string(),
@@ -39,21 +41,46 @@ export type Plan = z.infer<typeof PlanSchema>;
 export type Action = { tool: string; args: unknown };
 export type Observation = { tool: string; ok: boolean; data?: unknown; error?: string };
 
+// Allow the statuses that the executor/runner actually emits
 export type RunResult = {
-  status: "resolved" | "escalated" | "failed";
-  details?: unknown;
+  status: "resolved" | "escalated" | "failed" | "incomplete";
+  details?: {
+    // optional, but used to report reflection attempts, etc
+    reflectionAttempts?: number;
+    [k: string]: unknown;
+  };
   observations?: Observation[];
+};
+
+// metrics shape saved per run
+export type RunMetrics = {
+  run_id: string;
+  ticket_id: string;
+  steps: number; // number of observations / steps executed
+  escalated: boolean;
+  resolved: boolean;
+  iterations: number; // reflection attempts + 1
+  duration_ms: number;
+  timestamp: string;
 };
 
 export type ExecContext = {
   dry_run?: boolean;
   budget?: number;
   redact?: (s: string) => string;
-  // add stores (memory, kb) as needed
 
-  // --- Reflection loop options (all optional) ---
-  reflection_threshold?: number;        // default 0.5
-  reflection_maxIterations?: number;    // default 2
-  reflection_backoffMs?: number;        // default 500
-  useLLMForReflection?: boolean;        // default true
+  // reflection tuning:
+  reflection_threshold?: number;
+  reflection_maxIterations?: number;
+  reflection_backoffMs?: number;
+  useLLMForReflection?: boolean;
+
+  // cases & memory flags
+  useCases?: boolean;
+  memoryEnabled?: boolean;
+
+  // other tuning:
+  max_tool_retries?: number;
+  max_iterations?: number;
+  
 };

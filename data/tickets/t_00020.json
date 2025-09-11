@@ -1,10 +1,9 @@
 {
-    "id": "t_0020",
-    "from": "henry@acme.com",
-    "subject": "Incorrect invoice + slow API",
-    "body": "Invoice for September is wrong and API responses are very slow.",
-    "attachments": ["data/kb/contracts/henry_contract.pdf"],
-    "channel": "web",
-    "received_at": "2025-08-23T21:10:00Z"
-  }
-  
+    "id": "t_00020",
+    "from": "jane@example.com",
+    "subject": "Refund request",
+    "body": "I need a refund of $600 for my last invoice.",
+    "attachments": [],
+    "channel": "email",
+    "received_at": "2025-09-01T12:00:00Z"
+}

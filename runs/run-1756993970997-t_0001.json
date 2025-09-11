@@ -1,0 +1,10 @@
+{
+  "run_id": "run-1756993970997-t_0001",
+  "ticket_id": "t_0001",
+  "steps": 15,
+  "escalated": true,
+  "resolved": false,
+  "iterations": 3,
+  "duration_ms": 21409,
+  "timestamp": "2025-09-04T13:53:12.406Z"
+}

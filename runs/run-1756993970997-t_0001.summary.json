@@ -1,0 +1,209 @@
+{
+  "run_id": "run-1756993970997-t_0001",
+  "ticket_id": "t_0001",
+  "plan": {
+    "goal": "Resolve the billing discrepancy for Acme's August invoice and clarify the charges.",
+    "assumptions": [
+      "The customer contract states a fixed monthly charge of $1,200.",
+      "The invoice for August appears to be double the expected amount.",
+      "The attached contract may contain relevant billing terms.",
+      "The customer expects a prompt and clear explanation or correction."
+    ],
+    "steps": [
+      {
+        "tool": "billing.api.getInvoice",
+        "args": {
+          "customer_email": "sara@acme.com",
+          "month": "2025-08"
+        }
+      },
+      {
+        "tool": "kb.retrieve",
+        "args": {
+          "query": "billing terms Acme contract",
+          "top_k": 1
+        }
+      },
+      {
+        "tool": "cases.query",
+        "args": {
+          "query": "billing discrepancy Acme August 2025",
+          "top_k": 3
+        }
+      }
+    ],
+    "stopping_conditions": [
+      "Invoice details confirm the discrepancy and the cause is identified.",
+      "Contract terms confirm the agreed monthly charge.",
+      "A previous similar case or resolution is found and applicable.",
+      "If unable to resolve or clarify, escalate to human support."
+    ]
+  },
+  "result": {
+    "status": "escalated",
+    "observations": [
+      {
+        "tool": "billing.api.getInvoice",
+        "ok": true,
+        "data": {
+          "month": "2025-08",
+          "items": [
+            {
+              "sku": "SUBSCRIPTION_BASE",
+              "qty": 1,
+              "price": 1200
+            },
+            {
+              "sku": "OVERAGE_API_CALLS",
+              "qty": 5000,
+              "price": 0.05
+            }
+          ],
+          "total": 1450
+        }
+      },
+      {
+        "tool": "kb.retrieve",
+        "ok": true,
+        "data": {
+          "query": "billing terms Acme contract",
+          "hits": [
+            {
+              "id": "pricing.md#0",
+              "text": "# Pricing\\n- Base: $1,200/mo\\n- Overage: API calls $0.05 each",
+              "score": 0,
+              "sourcePath": "data/kb/pricing.md"
+            }
+          ]
+        }
+      },
+      {
+        "tool": "cases.query",
+        "ok": true,
+        "data": [
+          {
+            "score": 0.0586,
+            "id": "case_t_0003",
+            "ticket_id": "t_0003",
+            "problem_summary": "Slow response times from API",
+            "outcome": "Resolved in 4 observations.",
+            "postmortem": "Planned 4 step(s); executed 4 observation(s); tools used: status.api.get, issues.listIssues, kb.retrieve, escalate.toHuman.",
+            "plan": [
+              "1. status.api.get",
+              "2. issues.listIssues (customer=\"maria@initech.com\")",
+              "3. kb.retrieve (query=\"/payments endpoint slow response\")",
+              "4. escalate.toHuman (ticket_id=\"t_0003\")"
+            ]
+          }
+        ]
+      },
+      {
+        "tool": "billing.api.getInvoice",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "kb.retrieve",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "cases.query",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "billing.api.getInvoice",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "kb.retrieve",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "to": "sara@acme.com",
+          "subject": "Clarification on Your August Invoice",
+          "body": "Dear Sara,\n\nThank you for reaching out regarding your August invoice. The base subscription charge is $1,200 as per your contract. However, the invoice includes an additional charge of $250 for 5,000 API call overages at $0.05 each, which explains the total of $1,450.\n\nPlease let us know if you have any questions or if you believe this is incorrect, and we will be happy to assist further.\n\nBest regards,\nSupport Team",
+          "template": null,
+          "draft_id": "r_574314"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "to": "sara@acme.com",
+          "subject": "Clarification on Your August Invoice",
+          "body": "Dear Sara,\n\nThank you for reaching out regarding your August invoice. The base subscription charge is $1,200 as per your contract. However, the invoice includes an additional charge of $250 for 5,000 API call overages at $0.05 each, which explains the total of $1,450.\n\nPlease let us know if you have any questions or if you believe this is incorrect, and we will be happy to assist further.\n\nBest regards,\nSupport Team",
+          "template": null,
+          "draft_id": "r_241917"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "email.draftReply",
+        "ok": true,
+        "data": {
+          "note": "skipped-duplicate-success"
+        }
+      },
+      {
+        "tool": "escalate.toHuman",
+        "ok": true,
+        "data": {
+          "escalated": true,
+          "reason": "reflection_max_exceeded_or_unresolved",
+          "ticket": "E-403654"
+        }
+      }
+    ],
+    "details": {
+      "reflectionAttempts": 2
+    }
+  },
+  "metrics": {
+    "run_id": "run-1756993970997-t_0001",
+    "ticket_id": "t_0001",
+    "steps": 15,
+    "escalated": true,
+    "resolved": false,
+    "iterations": 3,
+    "duration_ms": 21409,
+    "timestamp": "2025-09-04T13:53:12.406Z"
+  }
+}

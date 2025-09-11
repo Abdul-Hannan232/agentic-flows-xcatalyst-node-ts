@@ -1,0 +1,49 @@
+{
+  "run_id": "run-1756982828377-t_0010",
+  "ticket_id": "t_0010",
+  "plan": {
+    "goal": "Escalate billing issue for human review.",
+    "assumptions": [
+      "Static fallback plan used."
+    ],
+    "steps": [
+      {
+        "tool": "escalate.toHuman",
+        "args": {
+          "ticket_id": "t_0010",
+          "reason": "Static demo plan for billing issue"
+        }
+      }
+    ],
+    "stopping_conditions": [
+      "Ticket has been escalated to a human agent."
+    ]
+  },
+  "result": {
+    "status": "resolved",
+    "observations": [
+      {
+        "tool": "escalate.toHuman",
+        "ok": true,
+        "data": {
+          "escalated": true,
+          "reason": "Static demo plan for billing issue",
+          "ticket": "E-682724"
+        }
+      }
+    ],
+    "details": {
+      "reflectionAttempts": 0
+    }
+  },
+  "metrics": {
+    "run_id": "run-1756982828377-t_0010",
+    "ticket_id": "t_0010",
+    "steps": 1,
+    "escalated": false,
+    "resolved": true,
+    "iterations": 1,
+    "duration_ms": 2,
+    "timestamp": "2025-09-04T10:47:08.379Z"
+  }
+}

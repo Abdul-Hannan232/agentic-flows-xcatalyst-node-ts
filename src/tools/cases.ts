@@ -236,9 +236,14 @@ export async function queryCases(query: string, top_k = 3): Promise<Array<{ scor
   if (process.env.CASES_USE_EMBEDDINGS === "1" && process.env.OPENAI_API_KEY) {
     try {
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      return await queryByEmbeddings(openai, cases, query, top_k);
+      const results = await queryByEmbeddings(openai, cases, query, top_k * 2);
+
+      // filter weak matches
+      return results
+        .filter(r => r.score >= 0.4)
+        .slice(0, top_k);
     } catch {
-      // fall through to TF-IDF
+      // fallback continues
     }
   }
 
@@ -254,9 +259,13 @@ export async function queryCases(query: string, top_k = 3): Promise<Array<{ scor
     const v = vectors.get(c.id) || new Map<string, number>();
     return { score: cosine(qVec, v), case: c };
   });
+
   scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, top_k);
+
+  // filter weak matches
+  return scored.filter(r => r.score >= 0.2).slice(0, top_k);
 }
+
 
 /** ---- Simple embeddings path (optional) ---- */
 async function queryByEmbeddings(
@@ -345,7 +354,7 @@ export async function rebuildIndex(
   return index;
 }
 
-/** ---- Tool wrapper: cases.query ---- */
+// Tool wrapper: cases.query 
 import type { ExecContext } from "../agent/types";
 export async function casesQueryTool(
   args: { query: string; top_k?: number },
